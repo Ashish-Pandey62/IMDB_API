@@ -1,19 +1,22 @@
 from rest_framework import serializers
-from watchlist_app.models import Movie
+from watchlist_app.models import WatchList, StreamPlatform
 
 #  Now we are going to look at the use of ModelSerializer
 
-class MovieSerializer(serializers.ModelSerializer):
-    
-    
+
+class StreamPlatformSerializer(serializers.ModelSerializer):
     class Meta:
-        
+        model= StreamPlatform
+        fields = '__all__'
+
+
+
+class WatchListSerializer(serializers.ModelSerializer):
+    class Meta:
+
         # custom serializer fields
-        
         # len_name = serializers.SerializerMethodField()
-        
-        
-        model = Movie
+        model = WatchList
         fields = '__all__'
         
         # fields = ['id', 'name', 'description']
