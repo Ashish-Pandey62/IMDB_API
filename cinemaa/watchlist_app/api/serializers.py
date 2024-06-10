@@ -12,6 +12,8 @@ class ReviewSerializer(serializers.ModelSerializer):
 
 
 class WatchListSerializer(serializers.ModelSerializer):
+    reviews = ReviewSerializer(many=True, read_only=True)
+
     class Meta:
 
         # custom serializer fields
@@ -46,7 +48,7 @@ class StreamPlatformSerializer(serializers.ModelSerializer):
     
     
     #  to return only the string name that we have ppassed in __str__
-    watchlist = serializers.StringRelatedField(many=True)
+    watchlist = WatchListSerializer(many=True, read_only=True)
     
     # to return the links to that item
     # watchlist = serializers.HyperlinkedRelatedField(

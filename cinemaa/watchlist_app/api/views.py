@@ -6,11 +6,18 @@ from rest_framework import status
 from rest_framework.views import APIView
 # from rest_framework import mixins
 from rest_framework import generics,viewsets
+from rest_framework.exceptions import ValidationError
 from django.shortcuts import get_object_or_404
 
 #  USING GENERIVC VIEWS TO GET THE COMPLETE LIST THE DETAILS OF REVIEWS
 
 class ReviewCreate(generics.CreateAPIView):
+    
+
+    def get_queryset(self):
+        return Review.objects.all()
+    
+    
     serializer_class = ReviewSerializer
     #  here we need to override the default 
     # queryset because i need to pass the id of specific movie 
@@ -19,7 +26,14 @@ class ReviewCreate(generics.CreateAPIView):
     def perform_create(self,serializer):
         pk = self.kwargs['pk']
         watchlist = WatchList.objects.get(pk=pk)
-        serializer.save(watchlist=watchlist)
+        
+        review_user = self.request.user
+        review_queryset = Review.objects.filter(watchlist=watchlist,review_user = review_user)
+        
+        if review_queryset.exists():
+            raise ValidationError("You are not allowed to post multiple reviews for a singl Watchlist.")
+        
+        serializer.save(watchlist=watchlist,review_user=review_user)
       
 
 
