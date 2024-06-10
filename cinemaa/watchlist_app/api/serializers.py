@@ -4,9 +4,11 @@ from watchlist_app.models import WatchList, StreamPlatform,Review
 #  Now we are going to look at the use of ModelSerializer
 
 class ReviewSerializer(serializers.ModelSerializer):
+    review_user = serializers.StringRelatedField(read_only=True)
     class Meta:
         model =  Review
-        fields = '__all__'
+        exclude = ('watchlist',)
+        # fields = '__all__'
 
 
 class WatchListSerializer(serializers.ModelSerializer):
@@ -43,15 +45,15 @@ class StreamPlatformSerializer(serializers.ModelSerializer):
     # watchlist = WatchListSerializer(many = True,read_only = True)
     
     
-    #  to return onlly the string name that we have ppassed in __str__
-    # watchlist = serializers.StringRelatedField(many=True)
+    #  to return only the string name that we have ppassed in __str__
+    watchlist = serializers.StringRelatedField(many=True)
     
     # to return the links to that item
-    watchlist = serializers.HyperlinkedRelatedField(
-        many=True,
-        read_only=True,
-        view_name='movie_details'
-    )
+    # watchlist = serializers.HyperlinkedRelatedField(
+    #     many=True,
+    #     read_only=True,
+    #     view_name='movie_detail'
+    # )
     
     class Meta:
         model= StreamPlatform
