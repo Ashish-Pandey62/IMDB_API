@@ -9,6 +9,7 @@ from rest_framework import generics,viewsets
 from rest_framework.exceptions import ValidationError
 from django.shortcuts import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
+from watchlist_app.api.permissions import AdminOrReadOnly,ReviewUserorReadOnly
 
 
 #  USING GENERIVC VIEWS TO GET THE COMPLETE LIST THE DETAILS OF REVIEWS
@@ -53,6 +54,9 @@ class ReviewList(generics.ListAPIView):
     
 class ReviewDetail(generics.RetrieveUpdateDestroyAPIView):
     
+    
+    permission_clasees = [ReviewUserorReadOnly] # this is an example of custom permission classes
+
     # permission_classes = [IsAuthenticated]  # this is an example of object level permission 
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer    
