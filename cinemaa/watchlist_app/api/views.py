@@ -8,6 +8,8 @@ from rest_framework.views import APIView
 from rest_framework import generics,viewsets
 from rest_framework.exceptions import ValidationError
 from django.shortcuts import get_object_or_404
+from rest_framework.permissions import IsAuthenticated
+
 
 #  USING GENERIVC VIEWS TO GET THE COMPLETE LIST THE DETAILS OF REVIEWS
 
@@ -50,6 +52,8 @@ class ReviewList(generics.ListAPIView):
     serializer_class = ReviewSerializer
     
 class ReviewDetail(generics.RetrieveUpdateDestroyAPIView):
+    
+    # permission_classes = [IsAuthenticated]  # this is an example of object level permission 
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer    
 
@@ -183,6 +187,7 @@ class WatchListAV(APIView):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class WatchListDetailAV(APIView):
+    
 
     def get(self, request, pk):
         try:
