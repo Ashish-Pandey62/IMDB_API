@@ -16,4 +16,4 @@ class ReviewUserorReadOnly(permissions.BasePermission):
        else:
         # Check permissions for write request
         return object.review_user == request.user
-        pass        
+        
