@@ -54,6 +54,10 @@ class ReviewCreate(generics.CreateAPIView):
         
 
 class ReviewList(generics.ListAPIView):
+    
+    serializer_class = ReviewSerializer
+    permission_clasees = [IsAuthenticated] 
+    
     # queryset = Review.objects.all() note: by default they are accessing all the movies but we need the review for the particular selected movie,
     # so we need to override this method to get the review for the selected movie 
     
@@ -63,7 +67,7 @@ class ReviewList(generics.ListAPIView):
     
     
     
-    serializer_class = ReviewSerializer
+
     
 class ReviewDetail(generics.RetrieveUpdateDestroyAPIView):
     
